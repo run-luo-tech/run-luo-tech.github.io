@@ -1,8 +1,11 @@
 (() => {
-  const endpoint = 'https://busuanzi.9420.ltd/api';
+  // API host used by the provider's current official embed script.
+  const endpoint = 'https://bsz.iirose.cn/api';
   const production = location.hostname === 'run-luo-tech.github.io';
   const card = document.querySelector('#visitor-welcome');
   const total = document.querySelector('#visit-total');
+  const prefix = document.querySelector('#visit-prefix');
+  const unit = document.querySelector('#visit-unit');
   const title = document.querySelector('#visitor-title');
   const message = document.querySelector('#visitor-message');
   const note = document.querySelector('#visitor-note');
@@ -21,7 +24,10 @@
     title.textContent = count ? (en ? `Hello, visitor #${count.toLocaleString('en-US')}!` : `欢迎，访客 #${count.toLocaleString('zh-CN')}！`) : (en ? 'So glad you stopped by!' : '很高兴，在这里遇见你！');
     message.textContent = en ? 'Thanks for visiting Larry-Tech. Come back for more little creations!' : '感谢你来到 Larry-Tech，欢迎持续关注，一起期待下一个小作品！';
     note.textContent = count ? (en ? 'Your visit number · Repeat visits also count' : '这是本次访问序号 · 再次访问也会计数') : (en ? 'A little welcome, just for you.' : '送你一场小烟花，愿今天有好心情。');
-    total.textContent = !production ? (en ? 'Local preview' : '本地预览') : count ? count.toLocaleString(en ? 'en-US' : 'zh-CN') : (finished ? (en ? 'Temporarily unavailable' : '暂不可用') : '…');
+    const unavailable = production && finished && !count;
+    total.textContent = !production ? (en ? 'Local preview' : '本地预览') : count ? count.toLocaleString(en ? 'en-US' : 'zh-CN') : (unavailable ? (en ? 'Visit counter temporarily disconnected' : '访问计数暂未连接') : '…');
+    prefix.hidden = unavailable;
+    unit.hidden = unavailable || !production;
     close.setAttribute('aria-label', en ? 'Close welcome' : '关闭欢迎卡片');
   }
 
@@ -101,7 +107,7 @@
       return;
     }
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6500);
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
       // The shared service persists PVs. Exactly one POST per page load; no retries.
       const response = await fetch(endpoint, {
