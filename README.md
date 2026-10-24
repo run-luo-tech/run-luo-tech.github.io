@@ -25,7 +25,7 @@ python -m http.server 8765
 - catalog.js：分类筛选、可直达的分类 hash、筛选状态播报。
 - styles.css：视觉样式与移动端断点。
 - app.js：共享中英切换及详情页的截图切换。
-- assets：演示截图、图标和中文 PDF；截图来自 Musica 隔离演示曲库，不含个人歌曲。
+- assets：演示截图、图标和中文 PDF；截图来自 Musica 隔离演示曲库，不含个人歌曲。`larry-mark.svg` 是页头和介绍区共用的 L／上升箭头标志，`favicon.svg` 使用同一几何形状。
 - .nojekyll：按原始静态文件发布。
 
 本项目为轻量静态展示页，不增加完整软件工程框架。推送到 main 后由 GitHub Pages 更新。网站名称是 Larry-Tech，GitHub 账号名仍为 run-luo-tech。
